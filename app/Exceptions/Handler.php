@@ -3,10 +3,13 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use KennedyOsaze\LaravelApiResponse\Concerns\ConvertsExceptionToApiResponse;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ConvertsExceptionToApiResponse;
+
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -43,8 +46,8 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (Throwable $e, $request) {
+            return $this->renderApiResponse($e, $request);
         });
     }
 }

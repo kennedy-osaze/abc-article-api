@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/', function () {
+    return response()->json(['success' => true, 'message' => 'Workwise Articles v1.0']);
+});
+
+Route::controller(ArticleController::class)->prefix('articles')->group(function () {
+    Route::get('/', 'index')->name('article.index');
+    Route::post('/', 'store')->name('article.store');
+    Route::put('/{article:uuid}', 'update')->name('article.update');
+    Route::delete('/{article:uuid}', 'delete')->name('article.delete');
 });
