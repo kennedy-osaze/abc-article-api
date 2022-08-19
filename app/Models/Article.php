@@ -50,7 +50,7 @@ class Article extends Model
      */
     public function scopeActive(Builder $query): Builder
     {
-        return $query->whereNull('expired_at')->OrWhere('expired_at', '<', now());
+        return $query->whereNull('expired_at')->OrWhere('expired_at', '>', now());
     }
 
     /**
